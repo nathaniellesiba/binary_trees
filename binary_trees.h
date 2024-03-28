@@ -79,5 +79,10 @@ int *heap_to_sorted_array(heap_t *heap, size_t *size);
 binary_tree_t *binary_tree_node(binary_tree_t *parent, int value);
 
 
+/*functions for heap properties*/
+void swap(int *a, int *b);
+void heapify_up(heap_t *node);
+
+
 
 #endif
