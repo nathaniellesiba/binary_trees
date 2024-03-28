@@ -2,12 +2,9 @@
 #include <stdlib.h>
 
 /**
-*binary_tree_delete - takes pointer
-*to the root node of the tree
-*as a parameter
-*@binary_tree_t: the node
-*@*tree: the tree
-*Return: null
+* binary_tree_delete - free tree using node
+* @tree: the tree to free
+* Return: null or nothing
 */
 
 void binary_tree_delete(binary_tree_t *tree) 
