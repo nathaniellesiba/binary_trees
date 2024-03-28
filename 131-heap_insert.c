@@ -1,17 +1,16 @@
 #include "binary_trees.h"
 
-typedef struct binary_tree_s heap_t
+typedef struct heap_s
 {
     int value;
-    struct binary_tree_s *left;
-    struct binary_tree_s *right;
-}
-heap_t;
+    struct heap_s *left;
+    struct heap_s *right;
+} heap_t;
 
 /**
 * swap - Helper function to swap two values
-* @a: first value
-* @b: second value
+* @a: pointer to the first value
+* @b: pointer to the second value
 */
 void swap(int *a, int *b)
 {
@@ -23,7 +22,7 @@ void swap(int *a, int *b)
 /**
 * heapify_up - Function to maintain
 * Max Heap property after insertion
-* @node: element
+* @node: pointer to the current node
 */
 void heapify_up(heap_t *node)
 {
@@ -58,22 +57,26 @@ void heapify_up(heap_t *node)
 /**
 * heap_insert - Function to insert
 * a value into the Max Binary Heap
-* @root: topmost node with double pntr
-* @value: the value
-* Return: new node on success
+* @root: double pointer to the root node
+* @value: the value to be inserted
+* Return: pointer to the new node on success, or NULL on failure
 */
 heap_t *heap_insert(heap_t **root, int value)
 {
-    heap_t *new_node = create_node(value);
+    heap_t *new_node = malloc(sizeof(heap_t));
     if (new_node == NULL)
     {
-        return (NULL);  /*Return NULL on failure*/
+        return NULL;  // Return NULL on failure
     }
+
+    new_node->value = value;
+    new_node->left = NULL;
+    new_node->right = NULL;
 
     if (*root == NULL)
     {
         *root = new_node;
-        return (new_node);
+        return new_node;
     }
 
     heap_t *current = *root;
@@ -91,10 +94,8 @@ heap_t *heap_insert(heap_t **root, int value)
         }
         else
         {
-            if (current->left != NULL && current->right != NULL &&
-                current->left->left == NULL && current->left->right == NULL &&
-                current->right->left == NULL && current->right->right == NULL)
-                {
+            if (current->left->left == NULL || current->left->right == NULL)
+            {
                 current = current->left;
             }
             else
@@ -104,6 +105,6 @@ heap_t *heap_insert(heap_t **root, int value)
         }
     }
 
-    heapify_up(new_node);  /*Maintain Max Heap property after insertion*/
-    return (new_node);
+    heapify_up(new_node);  // Maintain Max Heap property after insertion
+    return new_node;
 }
